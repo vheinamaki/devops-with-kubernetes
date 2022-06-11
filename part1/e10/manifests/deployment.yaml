@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logoutput-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logoutput
+  template:
+    metadata:
+      labels:
+        app: logoutput
+    spec:
+      volumes:
+        - name: logging-volume
+          emptyDir: {}
+      containers:
+        - name: logreader
+          image: vhmk/logreader:1.0.2
+          volumeMounts:
+          - name: logging-volume
+            mountPath: /app/files
+        - name: logwriter
+          image: vhmk/logwriter:1.0.3
+          volumeMounts:
+          - name: logging-volume
+            mountPath: /app/files

@@ -1,0 +1,12 @@
+{
+  "name": "exercises",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "logoutput": "node logoutput.js",
+    "pingpong": "node pingpong.js"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
