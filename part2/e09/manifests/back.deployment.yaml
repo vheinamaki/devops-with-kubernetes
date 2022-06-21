@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: todoproject-namespace
+  name: todoproject-back-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoproject-back
+  template:
+    metadata:
+      labels:
+        app: todoproject-back
+    spec:
+      volumes:
+        - name: project-volume
+          persistentVolumeClaim:
+            claimName: project-pv-claim
+      containers:
+        - name: todoproject-back
+          image: vhmk/back:2.0.9
+          volumeMounts:
+          - name: project-volume
+            mountPath: /app/files
+          envFrom:
+            - secretRef:
+                name: postgres-pass

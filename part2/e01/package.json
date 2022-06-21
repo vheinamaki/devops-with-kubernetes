@@ -1,0 +1,14 @@
+{
+  "name": "exercises",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "logwriter": "node logwriter.js",
+    "logreader": "node logreader.js",
+    "pingpong": "node pingpong.js"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "express": "^4.18.1"
+  }
+}

@@ -1,0 +1,91 @@
+const { Client } = require("pg");
+const { writeFile, readFile } = require("fs/promises");
+const axios = require("axios").default;
+const { Buffer } = require("buffer");
+
+const client = new Client({
+  user: "postgres",
+  host: "postgres-service",
+  database: "postgres",
+  password: process.env.POSTGRES_PASSWORD,
+  port: 5432,
+});
+
+const storageDir = "./files/";
+
+(async () => {
+  await client.connect();
+
+  await client.query(`CREATE TABLE IF NOT EXISTS sites (
+        id          SERIAL,
+
+        pictureTime BIGINT
+                    NOT NULL
+    );`);
+  // Check if site exists already
+  const siteResult = await client.query("SELECT * FROM sites WHERE id=1");
+  if (siteResult.rows.length === 0) {
+    await client.query("INSERT INTO sites (id, pictureTime) VALUES (1, 0)");
+  }
+
+  await client.query(`CREATE TABLE IF NOT EXISTS todos (
+        id      SERIAL,
+
+        "text"  VARCHAR(256)
+                NOT NULL
+    );`);
+  // Check if todo items exist already
+  const todoResult = await client.query("SELECT * FROM todos");
+  if (todoResult.rows.length === 0) {
+    await client.query(
+      "INSERT INTO todos (\"text\") VALUES ('todo 1'), ('todo 2')"
+    );
+  }
+})();
+
+const data = {
+  /**
+   * @returns {Promise<number>}
+   */
+  getPictureTime: async () => {
+    const result = await client.query("SELECT * FROM sites WHERE id=1");
+    return result.rows[0].picturetime;
+  },
+
+  getPicture: async () => {
+    return await readFile(storageDir + "picture.jpg");
+  },
+
+  setPicture: async (url) => {
+    const pictureTime = Math.round(Date.now() / 1000);
+    const res = await axios.get(url, {
+      responseType: "arraybuffer",
+    });
+    const buf = Buffer.from(res.data);
+    await writeFile(storageDir + "picture.jpg", buf);
+    await client.query("UPDATE sites SET pictureTime=$1 WHERE id=1", [
+      pictureTime,
+    ]);
+  },
+
+  /**
+   * @returns {Promise<{id: number, text: string}[]>}
+   */
+  getTodos: async () => {
+    const result = await client.query("SELECT * FROM todos");
+    return result.rows;
+  },
+
+  /**
+   * @returns {Promise<{id: number, text: string}>}
+   */
+  addTodo: async (text) => {
+    const res = await client.query(
+      'INSERT INTO todos ("text") VALUES ($1) RETURNING *',
+      [text]
+    );
+    return res.rows[0];
+  },
+};
+
+module.exports = data;

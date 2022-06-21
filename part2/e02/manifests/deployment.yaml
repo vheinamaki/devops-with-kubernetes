@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoproject-front-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoproject-front
+  template:
+    metadata:
+      labels:
+        app: todoproject-front
+    spec:
+      containers:
+        - name: todoproject-front
+          image: vhmk/front:2.0.6

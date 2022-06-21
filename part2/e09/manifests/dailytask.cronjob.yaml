@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: todoproject-namespace
+  name: dailytask
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: dailytask
+            image: vhmk/dailytask:1.0.0
+          restartPolicy: Never
