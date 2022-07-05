@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: logging-namespace
+  name: logging-configmap
+data:
+  logreader_message: "Hello"

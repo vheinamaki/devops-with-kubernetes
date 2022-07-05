@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: logging-namespace
+  name: pingpong-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong
+  template:
+    metadata:
+      labels:
+        app: pingpong
+    spec:
+      volumes:
+        - name: pingpong-volume
+          emptyDir: {}
+      containers:
+        - name: pingpong
+          image: vhmk/pingpong:2.0.4
+          volumeMounts:
+          - name: pingpong-volume
+            mountPath: /app/files
+          envFrom:
+            - secretRef:
+                name: postgres-pass
