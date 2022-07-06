@@ -1,5 +1,6 @@
 # Other assignment versions for gh actions are in previous commits:
 # part 3 e03: d1a93c3b937bad5f8b4bafbd4125a965f45c6236
+# part 3 e04: 1990ba3a3fe72d0edaf278c044157351c2cab9fe
 name: Release application
 
 on:
