@@ -1,8 +1,7 @@
 name: Delete environment
 
 on:
-  branch_protection_rule:
-    types: [deleted]
+  delete
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
