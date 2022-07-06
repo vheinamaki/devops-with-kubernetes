@@ -1,3 +1,5 @@
+# Other assignment versions for gh actions are in previous commits:
+# part 3 e03: d1a93c3b937bad5f8b4bafbd4125a965f45c6236
 name: Release application
 
 on:
@@ -6,7 +8,7 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: part3/e03
+    working-directory: part3/e04
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -56,9 +58,12 @@ jobs:
 
       - name: Deploy
         run: |-
-          kubectl create namespace todoproject-namespace || true
+          echo Setting up in namespace ${GITHUB_REF#refs/heads/}
+          kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+          kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+          kustomize edit set namespace ${GITHUB_REF#refs/heads/}
           kustomize edit set image TODO/BACK=gcr.io/$PROJECT_ID/$IMAGE-back:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize edit set image TODO/FRONT=gcr.io/$PROJECT_ID/$IMAGE-front:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize edit set image TODO/DAILYTASK=gcr.io/$PROJECT_ID/$IMAGE-dailytask:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize build . | cat - <(echo '---') <(SOPS_AGE_KEY=$SOPS_AGE_KEY sops --decrypt pg.secret.enc.yaml) | kubectl apply -f -
-          kubectl get services -o wide -n todoproject-namespace
+          kubectl get services -o wide
