@@ -56,6 +56,7 @@ jobs:
 
       - name: Deploy
         run: |-
+          kubectl create namespace todoproject-namespace || true
           kustomize edit set image TODO/BACK=gcr.io/$PROJECT_ID/$IMAGE-back:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize edit set image TODO/FRONT=gcr.io/$PROJECT_ID/$IMAGE-front:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize edit set image TODO/DAILYTASK=gcr.io/$PROJECT_ID/$IMAGE-dailytask:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
