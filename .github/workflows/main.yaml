@@ -10,6 +10,7 @@ defaults:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
   GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
   IMAGE: dwk-project
