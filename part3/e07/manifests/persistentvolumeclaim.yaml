@@ -4,7 +4,6 @@ metadata:
   namespace: todoproject-namespace
   name: project-pv-claim
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:

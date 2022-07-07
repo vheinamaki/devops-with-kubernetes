@@ -9,5 +9,4 @@ resources:
   - manifests/pg.service.yaml
   - manifests/pg.statefulset.yaml
   - manifests/service.yaml
-  - manifests/persistentvolume.yaml
   - manifests/persistentvolumeclaim.yaml
