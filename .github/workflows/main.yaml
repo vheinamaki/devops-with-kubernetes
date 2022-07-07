@@ -9,7 +9,7 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: part3/e07
+    working-directory: part3/e08
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
