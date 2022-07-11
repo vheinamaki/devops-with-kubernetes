@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- manifests/back.rollout.yaml
+- manifests/back.service.yaml
+- manifests/dailytask.cronjob.yaml
+- manifests/rollout.yaml
+- manifests/ingress.yaml
+- manifests/pg.service.yaml
+- manifests/pg.statefulset.yaml
+- manifests/service.yaml
+- manifests/persistentvolumeclaim.yaml
+- manifests/analysistemplate.yaml
+images:
+- name: TODO/FRONT
+  newName: vhmk/front:2.0.9
+- name: TODO/BACK
+  newName: vhmk/back:2.0.9
+- name: TODO/DAILYTASK
+  newName: vhmk/dailytask:1.0.0

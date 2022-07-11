@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  namespace: todoproject-namespace
+  name: todoproject-back-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoproject-back
+  strategy:
+    canary:
+      maxSurge: 1
+      maxUnavailable: 1
+      steps:
+      - analysis:
+          templates:
+          - templateName: cpu-analysis
+  template:
+    metadata:
+      labels:
+        app: todoproject-back
+    spec:
+      volumes:
+        - name: project-volume
+          persistentVolumeClaim:
+            claimName: project-pv-claim
+      containers:
+        - name: todoproject-back
+          image: TODO/BACK
+          resources:
+            limits:
+              cpu: 200m
+              memory: 64Mi
+          volumeMounts:
+          - name: project-volume
+            mountPath: /app/files
+          envFrom:
+            - secretRef:
+                name: postgres-pass
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 8001
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 8001

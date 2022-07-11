@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: logging-namespace
+  name: logoutput-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logoutput
+  template:
+    metadata:
+      labels:
+        app: logoutput
+    spec:
+      volumes:
+        - name: logging-volume
+          emptyDir: {}
+      containers:
+        - name: logreader
+          image: vhmk/logreader:1.0.7
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 3000
+          resources:
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+          - name: logging-volume
+            mountPath: /app/files
+          env:
+          - name: MESSAGE
+            valueFrom:
+              configMapKeyRef:
+                name: logging-configmap
+                key: logreader_message
+        - name: logwriter
+          image: vhmk/logwriter:1.0.3
+          resources:
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+          - name: logging-volume
+            mountPath: /app/files
