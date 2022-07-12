@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  namespace: todoproject-namespace
+  name: todoproject-broadcaster-dep
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: todoproject-broadcaster
+  strategy:
+    canary:
+      maxSurge: 1
+      maxUnavailable: 1
+      steps:
+      - analysis:
+          templates:
+          - templateName: cpu-analysis
+  template:
+    metadata:
+      labels:
+        app: todoproject-broadcaster
+    spec:
+      containers:
+        - name: todoproject-broadcaster
+          image: TODO/BROADCASTER
+          resources:
+            limits:
+              cpu: 200m
+              memory: 64Mi
+          envFrom:
+            - secretRef:
+                name: broadcast-secrets
+          env:
+          - name: NATS_URL
+            valueFrom:
+              configMapKeyRef:
+                name: todoproject-configmap
+                key: nats_url
