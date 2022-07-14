@@ -9,8 +9,7 @@ on:
       - main
     paths-ignore:
       - "part*/*/manifests/kustomization.yaml"
-env:
-  WORKDIR: part4/e08
+
 jobs:
   build:
     name: Build
@@ -27,28 +26,28 @@ jobs:
     - name: Build and Push Frontend
       uses: docker/build-push-action@v2
       with:
-        context: "$WORKDIR"
+        context: part4/e08
         push: true
         tags: vhmk/front:${{ github.sha }}
 
     - name: Build and Push Backend
       uses: docker/build-push-action@v2
       with:
-        context: "$WORKDIR"
+        context: part4/e08
         push: true
         tags: vhmk/back:${{ github.sha }}
 
     - name: Build and Push Daily task
       uses: docker/build-push-action@v2
       with:
-        context: "$WORKDIR"
+        context: part4/e08
         push: true
         tags: vhmk/dailytask:${{ github.sha }}
 
     - name: Build and Push Broadcaster
       uses: docker/build-push-action@v2
       with:
-        context: "$WORKDIR"
+        context: part4/e08
         push: true
         tags: vhmk/broadcaster:${{ github.sha }}
 
@@ -64,7 +63,7 @@ jobs:
       uses: imranismail/setup-kustomize@v1
 
     - name: Update yamls
-      working-directory: $WORKDIR/manifests
+      working-directory: part4/e08/manifests
       run: |-
         kustomize edit set image IMAGE_PLACEHOLDER=vhmk/front:${{ github.sha }}
         kustomize edit set image IMAGE_PLACEHOLDER=vhmk/back:${{ github.sha }}
@@ -73,7 +72,7 @@ jobs:
 
     - uses: EndBug/add-and-commit@v7
       with:
-        add: "$WORKDIR/manifests/kustomization.yaml"
+        add: "part4/e08/manifests/kustomization.yaml"
         message: New version release for gitops-app ${{ github.sha }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
