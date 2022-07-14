@@ -26,7 +26,7 @@ jobs:
     - name: Build and Push Frontend
       uses: docker/build-push-action@v2
       with:
-        file: front.Dockerfile
+        file: part4/e08/front.Dockerfile
         context: part4/e08
         push: true
         tags: vhmk/front:${{ github.sha }}
@@ -34,7 +34,7 @@ jobs:
     - name: Build and Push Backend
       uses: docker/build-push-action@v2
       with:
-        file: back.Dockerfile
+        file: part4/e08/back.Dockerfile
         context: part4/e08
         push: true
         tags: vhmk/back:${{ github.sha }}
@@ -42,7 +42,7 @@ jobs:
     - name: Build and Push Daily task
       uses: docker/build-push-action@v2
       with:
-        file: dailytask.Dockerfile
+        file: part4/e08/dailytask.Dockerfile
         context: part4/e08
         push: true
         tags: vhmk/dailytask:${{ github.sha }}
@@ -50,7 +50,7 @@ jobs:
     - name: Build and Push Broadcaster
       uses: docker/build-push-action@v2
       with:
-        file: broadcaster.Dockerfile
+        file: part4/e08/broadcaster.Dockerfile
         context: part4/e08
         push: true
         tags: vhmk/broadcaster:${{ github.sha }}
