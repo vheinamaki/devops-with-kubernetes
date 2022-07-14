@@ -21,13 +21,13 @@ images:
   newTag: a79b6e30bed8a03be3e84f6e034a9751d91a5d69
 - name: TODO/BACK
   newName: vhmk/back
-  newTag: 3.0.3
+  newTag: 35dc0bb005b2c6c12bdb786f5852a474c5bc3649
 - name: TODO/BROADCASTER
   newName: vhmk/broadcaster
-  newTag: 1.0.7
+  newTag: 35dc0bb005b2c6c12bdb786f5852a474c5bc3649
 - name: TODO/DAILYTASK
   newName: vhmk/dailytask
-  newTag: 1.0.0
+  newTag: 35dc0bb005b2c6c12bdb786f5852a474c5bc3649
 - name: TODO/FRONT
   newName: vhmk/front
-  newTag: 3.0.0
+  newTag: 35dc0bb005b2c6c12bdb786f5852a474c5bc3649
