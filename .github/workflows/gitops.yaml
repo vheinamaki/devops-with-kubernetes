@@ -1,6 +1,3 @@
-# Other assignment versions for gh actions are in previous commits:
-# part 3 e03: d1a93c3b937bad5f8b4bafbd4125a965f45c6236
-# part 3 e04: 024805fcf3e1a80727d4ade36266a2294356ffd7
 name: Release application with gitops
 
 on:
