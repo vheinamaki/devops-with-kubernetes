@@ -27,28 +27,28 @@ jobs:
     - name: Build and Push Frontend
       uses: docker/build-push-action@v2
       with:
-        context: $WORKDIR
+        context: "$WORKDIR"
         push: true
         tags: vhmk/front:${{ github.sha }}
 
     - name: Build and Push Backend
       uses: docker/build-push-action@v2
       with:
-        context: $WORKDIR
+        context: "$WORKDIR"
         push: true
         tags: vhmk/back:${{ github.sha }}
 
     - name: Build and Push Daily task
       uses: docker/build-push-action@v2
       with:
-        context: $WORKDIR
+        context: "$WORKDIR"
         push: true
         tags: vhmk/dailytask:${{ github.sha }}
 
     - name: Build and Push Broadcaster
       uses: docker/build-push-action@v2
       with:
-        context: $WORKDIR
+        context: "$WORKDIR"
         push: true
         tags: vhmk/broadcaster:${{ github.sha }}
 
