@@ -16,15 +16,18 @@ resources:
 - configmap.yaml
 - namespace.yaml
 images:
-- name: TODO/FRONT
-  newName: vhmk/front
-  newTag: 3.0.0
+- name: IMAGE_PLACEHOLDER
+  newName: vhmk/broadcaster
+  newTag: a79b6e30bed8a03be3e84f6e034a9751d91a5d69
 - name: TODO/BACK
   newName: vhmk/back
   newTag: 3.0.3
-- name: TODO/DAILYTASK
-  newName: vhmk/dailytask
-  newTag: 1.0.0
 - name: TODO/BROADCASTER
   newName: vhmk/broadcaster
   newTag: 1.0.7
+- name: TODO/DAILYTASK
+  newName: vhmk/dailytask
+  newTag: 1.0.0
+- name: TODO/FRONT
+  newName: vhmk/front
+  newTag: 3.0.0
