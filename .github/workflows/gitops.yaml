@@ -69,10 +69,10 @@ jobs:
     - name: Update yamls
       working-directory: part4/e08/manifests
       run: |-
-        kustomize edit set image IMAGE_PLACEHOLDER=vhmk/front:${{ github.sha }}
-        kustomize edit set image IMAGE_PLACEHOLDER=vhmk/back:${{ github.sha }}
-        kustomize edit set image IMAGE_PLACEHOLDER=vhmk/dailytask:${{ github.sha }}
-        kustomize edit set image IMAGE_PLACEHOLDER=vhmk/broadcaster:${{ github.sha }}
+        kustomize edit set image TODO/FRONT=vhmk/front:${{ github.sha }}
+        kustomize edit set image TODO/BACK=vhmk/back:${{ github.sha }}
+        kustomize edit set image TODO/DAILYTASK=vhmk/dailytask:${{ github.sha }}
+        kustomize edit set image TODO/BROADCASTER=vhmk/broadcaster:${{ github.sha }}
 
     - uses: EndBug/add-and-commit@v7
       with:
