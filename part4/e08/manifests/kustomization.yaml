@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- back.rollout.yaml
+- back.service.yaml
+- dailytask.cronjob.yaml
+- rollout.yaml
+- ingress.yaml
+- pg.service.yaml
+- pg.statefulset.yaml
+- service.yaml
+- persistentvolumeclaim.yaml
+- analysistemplate.yaml
+- broadcaster.service.yaml
+- broadcaster.rollout.yaml
+- configmap.yaml
+- namespace.yaml
+images:
+- name: TODO/FRONT
+  newName: vhmk/front
+  newTag: 3.0.0
+- name: TODO/BACK
+  newName: vhmk/back
+  newTag: 3.0.3
+- name: TODO/DAILYTASK
+  newName: vhmk/dailytask
+  newTag: 1.0.0
+- name: TODO/BROADCASTER
+  newName: vhmk/broadcaster
+  newTag: 1.0.7
