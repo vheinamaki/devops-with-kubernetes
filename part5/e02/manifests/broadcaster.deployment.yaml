@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoproject-broadcaster-dep
+  namespace: todoproject-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoproject-broadcaster
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: todoproject-broadcaster
+    spec:
+      containers:
+      - env:
+        - name: NATS_URL
+          valueFrom:
+            configMapKeyRef:
+              key: nats_url
+              name: todoproject-configmap
+        envFrom:
+        - secretRef:
+            name: broadcast-secrets
+        image: TODO/BROADCASTER
+        name: todoproject-broadcaster
+        resources:
+          limits:
+            cpu: 200m
+            memory: 64Mi

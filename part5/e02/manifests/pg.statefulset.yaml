@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: todoproject-namespace
+  name: postgres-ss
+spec:
+  serviceName: postgres-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dbapp
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: dbapp
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13.7-alpine
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          ports:
+            - name: web
+              containerPort: 5432
+          volumeMounts:
+            - name: pg-data
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+          envFrom:
+            - secretRef:
+                name: postgres-pass
+  volumeClaimTemplates:
+    - metadata:
+        name: pg-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 256Mi

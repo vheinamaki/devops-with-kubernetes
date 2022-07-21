@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoproject-front-dep
+  namespace: todoproject-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoproject-front
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: todoproject-front
+    spec:
+      containers:
+      - image: TODO/FRONT
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        name: todoproject-front
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi

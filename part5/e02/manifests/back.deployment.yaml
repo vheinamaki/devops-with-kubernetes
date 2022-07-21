@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoproject-back-dep
+  namespace: todoproject-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoproject-back
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: todoproject-back
+    spec:
+      containers:
+      - env:
+        - name: NATS_URL
+          valueFrom:
+            configMapKeyRef:
+              key: nats_url
+              name: todoproject-configmap
+        envFrom:
+        - secretRef:
+            name: postgres-pass
+        image: TODO/BACK
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8001
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        name: todoproject-back
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 200m
+            memory: 64Mi
+        volumeMounts:
+        - mountPath: /app/files
+          name: project-volume
+      volumes:
+      - name: project-volume
+        persistentVolumeClaim:
+          claimName: project-pv-claim

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: todoproject-namespace
+  name: todoproject-broadcaster-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: todoproject-broadcaster
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8002
