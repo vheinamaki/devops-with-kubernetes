@@ -1,0 +1,15 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  namespace: logging-namespace
+  name: pingpong-knative
+spec:
+  template:
+    metadata:
+      name: pingpong-knative-v2
+    spec:
+      containers:
+        - image: vhmk/pingpong:2.0.10
+          envFrom:
+            - secretRef:
+                name: postgres-pass
